@@ -1,0 +1,135 @@
+{
+  "name": "Taller de Automatización",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d7aa9466-eea5-44be-b918-7ac83c4342c0",
+              "leftValue": "={{ $json.body.email }}",
+              "rightValue": "^[a-zA-Z0-9_%.+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        -16
+      ],
+      "id": "7bc52bb1-ed87-4556-9ee6-6e08cdac0a7d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        64
+      ],
+      "id": "e9f213ab-18f1-4ba2-a063-1ad21613e9d8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "calderonjuandavid27@gmail.com",
+        "subject": "Correo Notificación",
+        "message": "Este correo es para informar",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        192,
+        -112
+      ],
+      "id": "5898a0de-ca46-4ea1-99c7-52a8538123a8",
+      "name": "Send a message",
+      "webhookId": "bc94dd7c-5600-4c50-8eb3-9b9cdf7f3c31",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mO09N3XOp9Vx0w3z",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/notify",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -272,
+        -16
+      ],
+      "id": "f106e201-abb4-48a0-b98c-0505e2dcffbf",
+      "name": "Webhook",
+      "webhookId": "eac6ddaf-aab0-4d1f-804e-b0af292eab2a"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bd231f40-e789-47e8-b29a-a8fff076c960",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ab377a180e85bc53683aa8b69f2f7ef0a62f55d19c507614004ee8276d16e099"
+  },
+  "id": "oP1zDgC3Dh0xxB1O",
+  "tags": []
+}
