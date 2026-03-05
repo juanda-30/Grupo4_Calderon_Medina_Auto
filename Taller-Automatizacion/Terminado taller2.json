@@ -1,0 +1,479 @@
+{
+  "name": "Sistema Avanzado de Contacto - Formulario Web",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/notify",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -352,
+        -64
+      ],
+      "id": "6961c4b9-163a-44c6-8196-02b42d2814e5",
+      "name": "Webhook",
+      "webhookId": "6a106b9c-e024-46d5-8b94-ee67c7dc5f0f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "af44fb9d-675d-46b0-bf74-8ff850bae38c",
+              "leftValue": "={{ $json.body.email }}",
+              "rightValue": "^[a-zA-Z0-9_%.+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -80,
+        -64
+      ],
+      "id": "8c5e7959-cc63-4403-9013-dded69bb5932",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "calderonjuandavid27@gmail.com",
+        "subject": "Nueva Solicitud de Contacto",
+        "message": "<!DOCTYPE html> <html lang=\"es\"> <head>     <meta charset=\"UTF-8\">     <style>         body { font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px; }         .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }         .header { background: linear-gradient(135deg, #1a2f4b 0%, #2d5a8a 100%); color: white; padding: 30px; }         .header h2 { margin: 0; font-size: 24px; }         .content { padding: 30px; }         .field { margin-bottom: 20px; }         .label { color: #2d5a8a; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }         .value { color: #333; font-size: 15px; line-height: 1.6; padding: 10px; background: #f9f9f9; border-left: 3px solid #00d4ff; }         .footer { background: #f9f9f9; padding: 20px; text-align: center; color: #666; font-size: 12px; border-top: 1px solid #ddd; }         .id-badge { display: inline-block; background: #00d4ff; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; margin-top: 10px; }     </style> </head> <body>     <div class=\"container\">         <div class=\"header\">             <h2>✉️ Nueva Solicitud de Contacto Recibida</h2>             <p>Hemos recibido tu mensaje. Nos pondremos en contacto pronto.</p>         </div>                  <div class=\"content\">             <div class=\"field\">                 <div class=\"label\">👤 Nombre Completo</div>                 <div class=\"value\">{{ Juan García López }}</div>             </div>              <div class=\"field\">                 <div class=\"label\">📧 Email</div>                 <div class=\"value\">{{ $json.email }}</div>             </div>              <div class=\"field\">                 <div class=\"label\">🏢 Empresa</div>                 <div class=\"value\">{{ $json.empresa }}</div>             </div>              <div class=\"field\">                 <div class=\"label\">📱 Teléfono</div>                 <div class=\"value\">{{ $json.telefono }}</div>             </div>              <div class=\"field\">                 <div class=\"label\">🎯 Asunto</div>                 <div class=\"value\">{{ $json.asunto }}</div>             </div>              <div class=\"field\">                 <div class=\"label\">💬 Mensaje</div>                 <div class=\"value\" style=\"white-space: pre-wrap;\">{{ $json.mensaje }}</div>             </div>              <div class=\"field\">                 <div class=\"label\">⚡ Prioridad</div>                 <div class=\"value\">{{ $json.prioridad.toUpperCase() }}</div>             </div>              <hr style=\"border: none; border-top: 1px solid #ddd; margin: 30px 0;\">              <div style=\"background: #f0f7ff; padding: 15px; border-radius: 5px; font-size: 12px; color: #2d5a8a;\">                 <strong>🔍 Detalles del Sistema:</strong><br>                 ID de Solicitud: {{ $json.id_solicitud }}<br>                 Fecha/Hora: {{ $now.toFormat('dd/MM/yyyy HH:mm:ss') }}<br>                 Estado: {{ $json.estado }}<br>                 Asignado a: {{ $json.asignado_a }}             </div>         </div>          <div class=\"footer\">             <p>Este es un email automático del sistema de contacto. Por favor no respondas a este correo. Usa el formulario web para enviar mensajes adicionales.</p>             <p><strong>Corporación Universitaria de Huila - Ingeniería Mecatrónica</strong></p>         </div>     </div> </body> </html> ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        -112
+      ],
+      "id": "d669c20f-7741-4095-b0e5-55a7d1f1d3ac",
+      "name": "Send a message",
+      "webhookId": "133f7004-4bcb-4a71-b79d-bb940085a10d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mO09N3XOp9Vx0w3z",
+          "name": "Gmail account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IyGiEwGdOVHmyQFHL1Zp-vF-ydMGD2VJD2NrLla8CRA/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IyGiEwGdOVHmyQFHL1Zp-vF-ydMGD2VJD2NrLla8CRA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha/hora": "={{ $now.toISO() }}",
+            "ID": "=ID-{{ Math.floor(10000000 + Math.random() * 90000000) }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Empresa": "={{ $('Webhook').item.json.body.empresa }}",
+            "Teléfono ": "={{ $json.telefono_para_sheets }}",
+            "Asunto": "={{ $('Webhook').item.json.body.asunto }}",
+            "Mensaje": "={{ $('Webhook').item.json.body.mensaje }}",
+            "Prioridad": "={{ $('Webhook').item.json.body.prioridad }}",
+            "Estado": "={{ $('Webhook').item.json.body.Estado }}",
+            "Asignado a": "={{ $('Webhook').item.json.body['asignado a'] }}",
+            "Nombre": "={{ $('Webhook').item.json.body.nombre }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Empresa",
+              "displayName": "Empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono ",
+              "displayName": "Teléfono ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Asunto",
+              "displayName": "Asunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Mensaje",
+              "displayName": "Mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prioridad",
+              "displayName": "Prioridad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha/hora",
+              "displayName": "Fecha/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Asignado a",
+              "displayName": "Asignado a",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        -112
+      ],
+      "id": "d527bedc-ded9-4e05-9c6e-6205509f4bde",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DwpR5SNIZH6UXjRw",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1IyGiEwGdOVHmyQFHL1Zp-vF-ydMGD2VJD2NrLla8CRA/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 158456939,
+          "mode": "list",
+          "cachedResultName": "Hoja 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1IyGiEwGdOVHmyQFHL1Zp-vF-ydMGD2VJD2NrLla8CRA/edit#gid=158456939"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "=ID-{{ Math.floor(10000000 + Math.random() * 90000000) }}",
+            "Nombre": "={{ $json.body.nombre }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Asunto": "={{ $('Webhook').item.json.body.asunto }}",
+            "Fecha/hora": "={{ $now.toISO() }}",
+            "Teléfono ": "={{ $json.telefono_para_sheets }}",
+            "Estado": "={{ $json.body.Estado }}",
+            "Error": "={{ $json.body.error }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Teléfono ",
+              "displayName": "Teléfono ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Asunto",
+              "displayName": "Asunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Error",
+              "displayName": "Error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha/hora",
+              "displayName": "Fecha/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        48
+      ],
+      "id": "e0a2d8a5-10b7-418b-8d4c-0b8766b47d52",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "DwpR5SNIZH6UXjRw",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function asPlainText(value) {\n  if (value === null || value === undefined) return '';\n  const s = String(value).trim();\n  // Zero-width space al inicio (invisible) => Sheets no lo toma como fórmula\n  return '\\u200B' + s;\n}\n\nreturn items.map(item => {\n  // Lee de donde sea que venga:\n  const tel =\n    item.json?.body?.telefono ??\n    item.json?.telefono ??\n    $items(\"Webhook\")?.[0]?.json?.body?.telefono ??\n    '';\n\n  return {\n    json: {\n      ...item.json,\n      telefono_para_sheets: asPlainText(tel), // <-- en la raíz\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -112
+      ],
+      "id": "b02a8d72-56d1-4524-8eba-430237fabc6f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "function asPlainText(value) {\n  if (value === null || value === undefined) return '';\n  const s = String(value).trim();\n  // Zero-width space al inicio (invisible) => Sheets no lo toma como fórmula\n  return '\\u200B' + s;\n}\n\nreturn items.map(item => {\n  // Lee de donde sea que venga:\n  const tel =\n    item.json?.body?.telefono ??\n    item.json?.telefono ??\n    $items(\"Webhook\")?.[0]?.json?.body?.telefono ??\n    '';\n\n  return {\n    json: {\n      ...item.json,\n      telefono_para_sheets: asPlainText(tel), // <-- en la raíz\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        48
+      ],
+      "id": "e7e83c87-3b12-4b49-bb83-ac1e6f2faeed",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ae1e963b-c531-4f1d-bbe5-744d52de077a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ab377a180e85bc53683aa8b69f2f7ef0a62f55d19c507614004ee8276d16e099"
+  },
+  "id": "4QxYrNF6kzdJXxg1",
+  "tags": []
+}
