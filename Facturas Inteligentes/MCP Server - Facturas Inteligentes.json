@@ -1,0 +1,199 @@
+{
+  "name": "MCP Server - Facturas Inteligentes",
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "bearerAuth",
+        "path": "facturas-mcp"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        -2752,
+        -208
+      ],
+      "id": "0bfa2207-041f-4a03-8c40-4a1b854c0ce4",
+      "name": "MCP Server Trigger",
+      "webhookId": "3dcdbc86-b667-46c2-b8df-9b4ca43840f8",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "hXjpb0sUJ4Tq91zZ",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Analiza una factura desde una URL de PDF. Extrae proveedor, número de factura, fecha, items, subtotal, impuestos y total. Recibe como parámetro la URL del archivo PDF de la factura.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Tzqftk5FBoThqtEZ",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 1",
+          "cachedResultUrl": "/workflow/Tzqftk5FBoThqtEZ"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2864,
+        48
+      ],
+      "id": "ad630fd9-b3d4-4b08-88ac-3040b5486647",
+      "name": "Call n8n Workflow Tool"
+    },
+    {
+      "parameters": {
+        "description": "Guarda los datos de una factura analizada en la base de datos de Notion. Recibe: proveedor, numero_factura, fecha, subtotal, impuestos, total, moneda, items, estado.",
+        "workflowId": {
+          "__rl": true,
+          "value": "5OkiTDLuCPPalvCW",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 1",
+          "cachedResultUrl": "/workflow/5OkiTDLuCPPalvCW"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2624,
+        32
+      ],
+      "id": "cc6725b9-8236-4f1a-bd7c-7491e177c992",
+      "name": "Call n8n Workflow Tool1",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "description": "Envía un mensaje de notificación por Telegram con el resumen de una factura o cualquier mensaje relevante. Recibe: mensaje (texto a enviar).",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ytp0e8dj1Kq9jR4q",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Ytp0e8dj1Kq9jR4q",
+          "cachedResultName": "notificar_telegram"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2528,
+        144
+      ],
+      "id": "2337e847-6d0d-4735-b04a-ac67d25ffb88",
+      "name": "Call n8n Workflow Tool2"
+    },
+    {
+      "parameters": {
+        "description": "Consulta las facturas almacenadas en Notion. Puede filtrar por proveedor. Recibe: proveedor (opcional, nombre del proveedor para filtrar).",
+        "workflowId": {
+          "__rl": true,
+          "value": "RFOghHwd4qoOFb0K",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/RFOghHwd4qoOFb0K",
+          "cachedResultName": "consultar_facturas"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2432,
+        240
+      ],
+      "id": "7a205845-4dc8-4978-93ba-c99b107a4983",
+      "name": "Call n8n Workflow Tool3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Call n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool2": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool3": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "af4eca54-e6ff-4fec-ad80-50b2c25a0d5d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ab377a180e85bc53683aa8b69f2f7ef0a62f55d19c507614004ee8276d16e099"
+  },
+  "id": "95Hy17L1NZo8wEAg",
+  "tags": []
+}

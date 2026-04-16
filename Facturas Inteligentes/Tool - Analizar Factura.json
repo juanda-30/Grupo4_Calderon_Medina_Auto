@@ -1,0 +1,87 @@
+{
+  "name": "Tool - Analizar Factura",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -320,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.query }} ",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "factura.pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -112,
+        176
+      ],
+      "id": "60c2b6ef-78cf-4ae2-b2e6-27e490e5b08b",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        176
+      ],
+      "id": "379b8256-2197-437c-be44-45f4d756af0f",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "dd170335-6fee-4982-b168-19e5bc19d75b",
+  "meta": {
+    "instanceId": "ab377a180e85bc53683aa8b69f2f7ef0a62f55d19c507614004ee8276d16e099"
+  },
+  "id": "Tzqftk5FBoThqtEZ",
+  "tags": []
+}
